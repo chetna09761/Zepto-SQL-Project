@@ -87,8 +87,12 @@ Stock Issues: Analysis revealed that high-demand SKUs often suffer from stockout
 
 Pricing Sensitivity: Bulk items often offer a better price-per-gram, suggesting a push towards higher basket values.
 
-✒️ Author
 
-[Chetna Kushwaha]
+You tube - AMLAN MOHANTY
+
+https://youtu.be/x8dfQkKTyP0?si=gugydt65nBezLH5u
+
+Beginner-friendly tutorials, real-world
+project, job and career advice.
 
 
