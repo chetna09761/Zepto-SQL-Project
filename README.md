@@ -1,135 +1,94 @@
 # Zepto-SQL-Project
-This is a complete, real-world data analyst portfolio project based on an e-commerce inventory dataset scraped from Zepto — one of India’s fastest-growing quick-commerce startups. This project simulates real analyst workflows, from raw data exploration to business-focused data analysis.
+📦 Quick Commerce Inventory Analysis: SQL Case Study (Zepto Dataset)
 
-This project is perfect for:
+🎯 Project Overview
 
-📊 Data Analyst aspirants who want to build a strong Portfolio Project for interviews and LinkedIn
-📚 Anyone learning SQL hands-on
-💼 Preparing for interviews in retail, e-commerce, or product analytics
+This project focuses on performing end-to-end data analysis on an inventory dataset from Zepto, a leading player in India's "Quick Commerce" (10-minute delivery) sector. Using PostgreSQL, I simulated the workflow of a Data Analyst by transforming raw, scraped web data into actionable business insights.
 
-Project Overview
-The goal is to simulate how actual data analysts in the e-commerce or retail industries work behind the scenes to use SQL to:
+The analysis covers inventory health, pricing strategies, and revenue opportunities, providing a deep dive into how Q-Commerce platforms manage thousands of Stock Keeping Units (SKUs) across diverse categories.
 
-✅ Set up a messy, real-world e-commerce inventory database
+📊 The Dataset
 
-✅ Perform Exploratory Data Analysis (EDA) to explore product categories, availability, and pricing inconsistencies
+The data used in this project is sourced from the Zepto Inventory Dataset on Kaggle.
 
-✅ Implement Data Cleaning to handle null values, remove invalid entries, and convert pricing from paise to rupees
+Schema Breakdown:
 
-✅ Write business-driven SQL queries to derive insights around pricing, inventory, stock availability, revenue and more
+sku_id: Unique identifier for each product entry.
 
-📁 Dataset Overview
-The dataset was sourced from Kaggle and was originally scraped from Zepto’s official product listings. It mimics what you’d typically encounter in a real-world e-commerce inventory system.
+name: Consumer-facing product title.
 
-Each row represents a unique SKU (Stock Keeping Unit) for a product. Duplicate product names exist because the same product may appear multiple times in different package sizes, weights, discounts, or categories to improve visibility – exactly how real catalog data looks.
+category: Product grouping (e.g., Fresh Produce, Snacks, Beverages).
 
-🧾 Columns:
+mrp: Maximum Retail Price (stored as numeric).
 
-sku_id: Unique identifier for each product entry (Synthetic Primary Key)
+discountPercent: Promotional discount applied.
 
-name: Product name as it appears on the app
+discountedSellingPrice: Final price after discounts.
 
-category: Product category like Fruits, Snacks, Beverages, etc.
+availableQuantity: Current stock levels.
 
-mrp: Maximum Retail Price (originally in paise, converted to ₹)
+weightInGms: Physical weight of the SKU.
 
-discountPercent: Discount applied on MRP
+outOfStock: Boolean indicator of availability.
 
-discountedSellingPrice: Final price after discount (also converted to ₹)
+🛠️ Technical Workflow
 
-availableQuantity: Units available in inventory
+1. Database Architecture & ETL
 
-weightInGms: Product weight in grams
+Designed a robust schema to handle high-precision financial data and large inventory counts.
 
-outOfStock: Boolean flag indicating stock availability
+Data Ingestion: Optimized CSV import using COPY commands to handle UTF-8 encoding challenges.
 
-quantity: Number of units per package (mixed with grams for loose produce)
+Data Sanitization:
 
-🔧 Project Workflow
-Here’s a step-by-step breakdown of what we do in this project:
+Removed entries with inconsistent pricing (Zero MRP/Selling Price).
 
-1. Database & Table Creation
-We start by creating a SQL table with appropriate data types:
+Unit Standardization: Converted raw price data (originally in paise) to Rupees (₹) for standard reporting.
 
-CREATE TABLE zepto (
-  sku_id SERIAL PRIMARY KEY,
-  category VARCHAR(120),
-  name VARCHAR(150) NOT NULL,
-  mrp NUMERIC(8,2),
-  discountPercent NUMERIC(5,2),
-  availableQuantity INTEGER,
-  discountedSellingPrice NUMERIC(8,2),
-  weightInGms INTEGER,
-  outOfStock BOOLEAN,
-  quantity INTEGER
-);
+2. Exploratory Data Analysis (EDA)
 
-. Data Import
-Loaded CSV using pgAdmin's import feature.
+Investigated the "messiness" of real-world data:
 
-If you're not able to use the import feature, write this code instead:
+Identified duplicate SKUs across different package sizes.
 
-\copy zepto(category,name,mrp,discountPercent,availableQuantity,
-            discountedSellingPrice,weightInGms,outOfStock,quantity)
-  FROM 'data/zepto_v2.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', QUOTE '"', ENCODING 'UTF8');
-Faced encoding issues (UTF-8 error), which were fixed by saving the CSV file using CSV UTF-8 format.
-3. 🔍 Data Exploration
-Counted the total number of records in the dataset
+Analyzed the ratio of In-Stock vs. Out-of-Stock items to gauge supply chain health.
 
-Viewed a sample of the dataset to understand structure and content
+Mapped the distribution of products across various categories.
 
-Checked for null values across all columns
+3. Business Analysis & Insights
 
-Identified distinct product categories available in the dataset
+The project answers critical business questions using advanced SQL techniques (Aggregations, CTEs, and Window Functions):
 
-Compared in-stock vs out-of-stock product counts
+Pricing Optimization: Identified the top 10 products offering the most aggressive discounts to understand loss-leader strategies.
 
-Detected products present multiple times, representing different SKUs
+Revenue Risk Assessment: Detected high-value (High MRP) items that are currently out of stock, representing "lost revenue" opportunities.
 
-4. 🧹 Data Cleaning
-Identified and removed rows where MRP or discounted selling price was zero
+Category Performance: Calculated potential revenue and average discount depth per category to identify which segments drive the most value.
 
-Converted mrp and discountedSellingPrice from paise to rupees for consistency and readability
+Unit Economics: Derived "Price per Gram" metrics to compare value-for-money across different brand tiers.
 
-5. 📊 Business Insights
-Found top 10 best-value products based on discount percentage
+Inventory Segmentation: Categorized stock into 'Lightweight', 'Medium', and 'Bulk' to assist in delivery logistics planning.
 
-Identified high-MRP products that are currently out of stock
+🚀 How to Use This Repository
 
-Estimated potential revenue for each product category
+Environment: Ensure you have a PostgreSQL environment (like pgAdmin 4) installed.
 
-Filtered expensive products (MRP > ₹500) with minimal discount
+Setup: Run the provided schema.sql to create the tables.
 
-Ranked top 5 categories offering highest average discounts
+Data: Download the zepto_v2.csv from the Kaggle link and import it into the zepto table.
 
-Calculated price per gram to identify value-for-money products
+Analysis: Execute the queries in analysis_queries.sql to reproduce the insights.
 
-Grouped products based on weight into Low, Medium, and Bulk categories
+📌 Key Findings
 
-Measured total inventory weight per product category
+Discount Leaders: Certain categories like 'Cleaning Essentials' often carry higher average discounts compared to 'Fresh Produce'.
 
-How to Use This Project
-Clone the repository
-https://github.com/chetna09761/Zepto-SQL-Project/edit/main/README.md
+Stock Issues: Analysis revealed that high-demand SKUs often suffer from stockouts, impacting the platform's reliability.
 
-Open zepto_SQL_data_analysis.sql
+Pricing Sensitivity: Bulk items often offer a better price-per-gram, suggesting a push towards higher basket values.
 
-This file contains:
+✒️ Author
 
-Table creation
-
-Data exploration
-
-Data cleaning
-
-SQL Business analysis
-
-Load the dataset into pgAdmin or any other PostgreSQL client
-
-Create a database and run the SQL file
-
-Import the dataset (convert to UTF-8 if necessary)
-
-Thanks for checking out the project.
+[Chetna Kushwaha]
 
 
